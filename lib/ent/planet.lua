@@ -1,0 +1,3 @@
+local planet = {}
+
+return planet
