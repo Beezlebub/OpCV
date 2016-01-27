@@ -1,6 +1,6 @@
-local planet = {}
+local radio = {}
 
-function planet.inherit()
+function radio.inherit()
 	local self = {}
 
 	function self:update(dt)
@@ -13,5 +13,4 @@ function planet.inherit()
 
 	return self
 end
-
-return planet
+return radio

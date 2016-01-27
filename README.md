@@ -8,7 +8,8 @@ You are an aspiring young captain in search of getting filthy rich. You start ou
 You must navigate the openness of space while defending your precious cargo. You have limited ammo, fuel, and health... But they will slowly refill after use. After saving up money you can upgrade your ship's armor, thrusters, cargo space, and weapons all from within the market system!
 
 ## How to Play
-
+	
+	Escape  -- 	Pause Game
 	WASD	--  Control Player
 	Space	--  Shoot
 	Tab		--  Open Menu  (Opens Market when within range)
@@ -18,6 +19,7 @@ This game is still in an early concept and development stage, and will hopefully
 
 ### Credit
 [Free Assets](http://opengameart.org/content/2d-space-shooter-assets) by Pudman
+[Love2D Logo](http://www.akajag.com/wp-content/uploads/2015/09/) by Jag
 
 **More to be added as development progresses.*
 
@@ -44,6 +46,3 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-

@@ -1,3 +1,4 @@
+local inventory = require 'lib.mod.inventory'
 local player = {}
 
 function player.inherit()
@@ -11,14 +12,17 @@ function player.inherit()
 		vy = 0,
 		vrot = 0,
 		rot = 0,
-		accel = 5,
+		force = 2000,
 		fuel = 100,
 		burnRate = 5,
+		cargo = inventory.load(),
 
-		mass = {
-			empty = 1000,
-			maxTotal = 1500,
-			curCargo = 0
+		action = {
+			thrust = false,
+			reverse = false,
+			turnCW = false,
+			turnCCW = false,
+			shoot = false
 		}
 	}
 
@@ -26,31 +30,30 @@ function player.inherit()
 	self.h = self.imgCoast:getHeight()
 
 	function self:update(dt)
-		local didThrust, didRot = false, false
 		self.useImg = "imgCoast"
+		local didRot = false
+		local accel = self.force/(self.cargo.baseWeight + self.cargo.cargoWeight)
 
 		if self.fuel > 0 then
-			if LK.isDown("w") then
-				didThrust = true
-				self.vx = self.vx + math.sin(self.rot) * self.accel * dt
-				self.vy = self.vy + math.cos(self.rot) * -self.accel * dt
+			if self.action.thrust then
+				self.vx = self.vx + math.sin(self.rot) * accel * dt
+				self.vy = self.vy + math.cos(self.rot) * -accel * dt
 				self.fuel = self.fuel - self.burnRate * dt
 				self.useImg = "imgBoost"
 
-			elseif LK.isDown("s") then
-				didThrust = true
-				self.vx = self.vx - math.sin(self.rot) * (self.accel/2) * dt
-				self.vy = self.vy - math.cos(self.rot) * (-self.accel/2) * dt
+			elseif self.action.reverse then
+				self.vx = self.vx - math.sin(self.rot) * (accel/2) * dt
+				self.vy = self.vy - math.cos(self.rot) * (-accel/2) * dt
 				self.fuel = self.fuel - (self.burnRate/2) * dt
 			else
 				self.fuel = self.fuel + 3 * dt
 			end
 		end
 
-		if LK.isDown("a") then
+		if self.action.turnCCW then
 			didRot = true
 			self.vrot = self.vrot - .1 * dt
-		elseif LK.isDown("d") then	
+		elseif self.action.turnCW then	
 			didRot = true
 			self.vrot = self.vrot + .1 * dt
 		end
@@ -59,31 +62,22 @@ function player.inherit()
 		self.y = self.y + self.vy
 		self.rot = self.rot + self.vrot
 
-		if self.vx > 0 and not didThrust then
-			self.vx = self.vx - 1 * dt
-		elseif self.vx < 0 and not didThrust then 
-			self.vx = self.vx + 1 * dt
-		end
-
-		if self.vy > 0 and not didThrust then
-			self.vy = self.vy - 1 * dt
-		elseif self.vy < 0 and not didThrust then 
-			self.vy = self.vy + 1 * dt
-		end
-
 		if self.vrot > 0 and not didRot then
-			self.vrot = self.vrot - .1 * dt
+			self.vrot = self.vrot - .05 * dt
 		elseif self.vrot < 0 and not didRot then 
-			self.vrot = self.vrot + .1 * dt
+			self.vrot = self.vrot + .05 * dt
 		end
-
-
 	end
 
 	function self:draw()
-		LG.draw(self[self.useImg], self.x, self.y, self.rot, .5, .5, self.w/2, self.h/2)
+		LG.setColor(255,255,255)
+		LG.draw(self[self.useImg], self.x, self.y, self.rot, .2, .2, self.w/2, self.h/2)
 	end
 
+	function self:set(act, val)
+		self.action[act] = val
+	end
+	
 	return self
 end
 return player
