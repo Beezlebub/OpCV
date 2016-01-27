@@ -19,6 +19,7 @@ This game is still in an early concept and development stage, and will hopefully
 
 ### Credit
 [Free Assets](http://opengameart.org/content/2d-space-shooter-assets) by Pudman
+
 [Love2D Logo](http://www.akajag.com/wp-content/uploads/2015/09/) by Jag
 
 **More to be added as development progresses.*
