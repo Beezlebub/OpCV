@@ -37,7 +37,7 @@ function gameUpdate(dt)
 			entities[i]:update(dt)
 		end
 
-		if entities[i].model == "player" or entities[i].model == "missle" then	-- smoke trails
+		if (entities[i].model == "player" and entities[i].action.thrust) or entities[i].model == "missle" then	-- smoke trails
 			local smo = {entities[i].x, entities[i].y}
 			entities[#entities+1] = Entity.new("smoke", smo)
 		end
