@@ -67,6 +67,7 @@ function player.inherit()
 		elseif self.vrot < 0 and not didRot then 
 			self.vrot = self.vrot + .05 * dt
 		end
+	
 	end
 
 	function self:draw()

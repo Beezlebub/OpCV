@@ -1,4 +1,5 @@
-local Entity = require 'lib.mod.ecs'
+Entity = require 'lib.mod.ecs'
+local Smoke = require 'lib.ent.smoke'
 require 'lib.mod.hud'
 
 entities = {}
@@ -28,11 +29,17 @@ end
 
 function gameUpdate(dt)
 	hudUpdate(dt)
-	for i, ent in ipairs(entities) do
-		if ent.isDead then
+	
+	for i = #entities, 1, -1 do		
+		if entities[i].isDead then
 			table.remove(entities, i)
 		else
-			ent:update(dt)
+			entities[i]:update(dt)
+		end
+
+		if entities[i].model == "player" or entities[i].model == "missle" then	-- smoke trails
+			local smo = {entities[i].x, entities[i].y}
+			entities[#entities+1] = Entity.new("smoke", smo)
 		end
 	end
 end
@@ -49,15 +56,7 @@ function gameDraw()
 		end
 	end
 
-	for i, ent in ipairs(entities) do
-		ent:draw()
+	for i = #entities, 1, -1 do
+		entities[i]:draw()
 	end
-end
-
-function gameClick(x, y, b)
-
-end
-
-function gameKey(k, i)
-
 end

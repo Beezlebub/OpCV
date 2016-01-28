@@ -1,17 +1,27 @@
 local missle = {}
 
-function missle.inherit(x, y, vx, vy, angle)
+function missle.inherit(x, y, vx, vy, rot)
 	local self = {
 		x = x,
 		y = y, 
 		vx = vx,
 		vy = vy,
-		angle = angle
+		thrust = 10,
+		rot = rot,
+		lifeTime = 10
 	}
 
 	function self:update(dt)
-		self.x = self.x + math.sin(self.angle) + self.speed * dt
-		self.y = self.y + math.cos(self.angle) + -self.speed * dt
+		self.vx = self.vx + math.sin(self.rot) * self.thrust * dt
+		self.vy = self.vy + math.cos(self.rot) * -self.thrust * dt
+		self.lifeTime = self.lifeTime - 1 * dt
+
+		self.x = self.x + self.vx
+		self.y = self.y + self.vy
+		
+		if self.lifeTime <= 0 then
+			self.isDead = true
+		end
 	end
 
 	function self:draw()

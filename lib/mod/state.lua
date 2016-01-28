@@ -88,14 +88,14 @@ end
 
 function stateUpdate(dt)
 	if curState == "menu" then menuUpdate(dt) end
-	if curState == "game" then gameUpdate(dt) end
 	if curState == "pause" then pauseUpdate(dt) end
+	if curState == "game" then gameUpdate(dt) end
 end
 
 function stateDraw()
 	if curState == "menu" then menuDraw() end
-	if curState == "game" then gameDraw() end
 	if curState == "pause" then pauseDraw() end
+	if curState == "game" then gameDraw() end
 end
 
 function stateMouse(x, y, b)
@@ -107,7 +107,7 @@ end
 
 function inputHandler( input )
     local action = states[curState].bindings[input]
-    if action then  return action()  end
+    if action then return action() end
 end
 
 function stateKeypressed( k )
