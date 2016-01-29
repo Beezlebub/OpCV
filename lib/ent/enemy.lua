@@ -11,7 +11,7 @@ function enemy.inherit(x, y, vx, vy, rot)
 		vy = vy,
 		vrot = 0,
 		rot = rot,
-		force = 2000,
+		force = 2500,
 		mass = 1500,
 		collides = true,
 
@@ -42,7 +42,7 @@ function enemy.inherit(x, y, vx, vy, rot)
 			elseif self.action.reverse then
 				self.vx = self.vx - math.sin(self.rot) * (accel/2) * dt
 				self.vy = self.vy - math.cos(self.rot) * (-accel/2) * dt
-				self.fuel = self.fuel - (self.burnRate/2) * dt
+				self.fuel = self.fuel - (self.burnRate) * dt
 			end
 		--end
 

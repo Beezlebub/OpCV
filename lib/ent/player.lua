@@ -18,15 +18,15 @@ function player.inherit(x, y)
 		burnRate = 5,
 		collides = true,
 		cargo = inventory.load(),
+		canShoot = true,
+		canShootTimer = 0,
 
 		action = {
 			thrust = false,
 			reverse = false,
 			turnCW = false,
 			turnCCW = false,
-			shoot = false,
-			canShoot = true,
-			canShootTimer = 0
+			shoot = false			
 		},
 
 		weapon = {
@@ -48,12 +48,11 @@ function player.inherit(x, y)
 	self.h = self.imgCoast:getHeight()
 
 	function self:update(dt)
-		if self.action.canShootTimer >= 0 then
-			self.action.canShootTimer = self.action.canShootTimer - 1 * dt
+		if self.canShootTimer > 0 then
+			self.canShootTimer = self.canShootTimer - 1 * dt
 		else
-			self.action.canShoot = true
+			self.canShoot = true
 		end
-
 
 		self.useImg = "imgCoast"
 		local didRot = false
@@ -88,6 +87,12 @@ function player.inherit(x, y)
 		self.y = self.y + self.vy
 		self.rot = self.rot + self.vrot
 
+		if self.vx > 10 then self.vx = 10
+		elseif self.vx < -10 then self.vx = -10 end
+
+		if self.vy > 10 then self.vy = 10
+		elseif self.vy < -10 then self.vy = -10 end
+
 		if self.vrot > 0 and not didRot then
 			self.vrot = self.vrot - .05 * dt
 		elseif self.vrot < 0 and not didRot then 
@@ -104,6 +109,12 @@ function player.inherit(x, y)
 	function self:set(act, val)
 		if act == "weapon" then
 			self.weapon.use = val
+		elseif act == "shoot" then
+			self.action.shoot = val
+		elseif act == "canShoot" then
+			self.canShoot = val
+		elseif act == "canShootTimer" then
+			self.canShootTimer = val
 		else
 			self.action[act] = val
 		end

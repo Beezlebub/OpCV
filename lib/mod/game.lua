@@ -38,16 +38,16 @@ function gameUpdate(dt)
 		end
 	end
 
-	if entities[1].action.shoot and entities[1].action.canShoot then	-- fire weapons
-		if entities[1].weapon[entities[1].weapon.use] == "bullet" then
+	if entities[1].action.shoot and entities[1].canShoot then	-- fire weapons
+		if entities[1].weapon.use == "bullet" then
 			entities[#entities+1] = Entity.new("bullet", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
-			entities[1].action.canShoot = false
-			entities[1].action.canShootTimer = 1
+			entities[1]:set("canShoot", false)
+			entities[1]:set("canShootTimer", 1)
 
-		elseif entities[1].weapon[entities[1].weapon.use] == "missle" then
+		elseif entities[1].weapon.use == "missle" then
 			entities[#entities+1] = Entity.new("missle", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
-			entities[1].action.canShoot = false
-			entities[1].action.canShootTimer = 5
+			entities[1]:set("canShoot", false)
+			entities[1]:set("canShootTimer", 5)
 		end
 	end
 
@@ -57,7 +57,6 @@ function gameUpdate(dt)
 
 end
 		
-	
 
 function gameDraw()
 	LG.push()

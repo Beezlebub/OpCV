@@ -1,8 +1,15 @@
 local radio = {}
 
-function radio.inherit()
-	local self = {}
+function radio.inherit(id, x, y, strength)
+	local self = {
+		id = id,
+		x = x,
+		y = y,
+		strength = strength
+	}
 
+	--	im not exactly sure what i want to do with radios, if i use them at all...
+	
 	function self:update(dt)
 
 	end
