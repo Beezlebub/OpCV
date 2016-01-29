@@ -1,20 +1,22 @@
 local inventory = require 'lib.mod.inventory'
 local player = {}
 
-function player.inherit()
+function player.inherit(x, y)
 	local self = {
 		imgCoast = LG.newImage('lib/img/starterShipCoast.png'),
 		imgBoost = LG.newImage('lib/img/starterShipBoost.png'),
 		useImg = "imgCoast",
-		x = 0,
-		y = 0,
+		x = x,
+		y = x,
 		vx = 0,
 		vy = 0,
 		vrot = 0,
 		rot = 0,
-		force = 2000,
+		force = 2500,
 		fuel = 100,
+		health = 100,
 		burnRate = 5,
+		collides = true,
 		cargo = inventory.load(),
 
 		action = {
@@ -22,7 +24,23 @@ function player.inherit()
 			reverse = false,
 			turnCW = false,
 			turnCCW = false,
-			shoot = false
+			shoot = false,
+			canShoot = true,
+			canShootTimer = 0
+		},
+
+		weapon = {
+			bullet = {
+				strength = 20,
+				lifeTime = 10
+			},
+
+			missle = {
+				strength = 100,
+				lifeTime = 10
+			},
+
+			use = "bullet"
 		}
 	}
 
@@ -45,8 +63,6 @@ function player.inherit()
 				self.vx = self.vx - math.sin(self.rot) * (accel/2) * dt
 				self.vy = self.vy - math.cos(self.rot) * (-accel/2) * dt
 				self.fuel = self.fuel - (self.burnRate/2) * dt
-			else
-				self.fuel = self.fuel + 3 * dt
 			end
 		end
 
@@ -58,6 +74,9 @@ function player.inherit()
 			self.vrot = self.vrot + .1 * dt
 		end
 
+		if not self.action.thrust and self.fuel < 100 then self.fuel = self.fuel + 3 * dt end
+		if self.fuel > 100 then self.fuel = 100 end
+
 		self.x = self.x + self.vx
 		self.y = self.y + self.vy
 		self.rot = self.rot + self.vrot
@@ -67,7 +86,7 @@ function player.inherit()
 		elseif self.vrot < 0 and not didRot then 
 			self.vrot = self.vrot + .05 * dt
 		end
-	
+
 	end
 
 	function self:draw()
@@ -76,7 +95,11 @@ function player.inherit()
 	end
 
 	function self:set(act, val)
-		self.action[act] = val
+		if act == "weapon" then
+			self.weapon.use = val
+		else
+			self.action[act] = val
+		end
 	end
 	
 	return self

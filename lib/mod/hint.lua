@@ -24,7 +24,7 @@ local MSG = {
   ]]
 }
 local lg = love.graphics
-local font = lg.newFont(16)
+local font = lg.newFont("lib/mod/HelvetiPixel.ttf", 16)
 
 local modes = {
   info = {
@@ -62,16 +62,15 @@ local hint = {
   
 function hint.new(msg, style, timer)
   local self = {}
-  if not msg then hint.new("Error, hint not created!", "error", 10) return end
   self.msg = msg
   self.timer = timer or 5
-  self.delta = hint.delta
 
   self.style = style or "info"
   self.color = modes[self.style].color
   self.bg = modes[self.style].bg
 
-  hint.msgQueue[#hint.msgQueue+1] = self  
+  hint.msgQueue[#hint.msgQueue+1] = self 
+
   return self
 end
 
@@ -82,27 +81,26 @@ function hint.update(dt)
     hint.delta.sec = 0
   end
 
-
-  if #hint.msgQueue == 0 then return end -- if queue > 0 then update self timers
-  for i = #hint.msgQueue, 1, -1 do
-    hint.msgQueue[i].timer = hint.msgQueue[i].timer - 1 * dt
-    if hint.msgQueue[i].timer < 0 then
+  for i, msg in ipairs(hint.msgQueue) do
+    msg.timer = msg.timer - 1 * dt
+    if msg.timer <= 0 then
       table.remove(hint.msgQueue, i)
     end
   end
 end
 
-function hint.draw()
-  for i, msg in ipairs(hint.msgQueue) do
-    local tx, ty = 10, ((i-1)*40)+10
-    local tm = msg.delta.min .. "." .. string.format("%.2f", msg.delta.sec) .. "  " .. msg.msg
-    local tw = font:getWidth(tm) -10
-    
 
+function hint.draw()
+  love.graphics.setFont(font)
+  for i, msg in ipairs(hint.msgQueue) do
+    local tx, ty = 10, ((i-1)*50)+10
+    local tm = msg.msg
+    local tw = font:getWidth(tm) + 40
+    
     lg.setColor(0,0,0)
-    lg.rectangle("line", tx, ty, tw-10, 30)
+    lg.rectangle("line", tx, ty, tw-10, 40)
     lg.setColor(msg.bg)
-    lg.rectangle("fill", tx, ty, tw-10, 30)
+    lg.rectangle("fill", tx, ty, tw-10, 40)
 
     lg.setColor(msg.color)
     lg.printf(tm, tx, ty+10, tw, "center")

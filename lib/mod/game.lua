@@ -18,11 +18,11 @@ function gameLoad()
 			a = math.random(150, 255)
 		}
 	end
-
-	entities[1] = Entity.new("player") -- Call player first! Camera follows first entity!
+									--x, y, vx, vy, rot
+	entities[1] = Entity.new("player", 0, 0, 0, 0, 0) -- Call player first! Camera follows first entity!
 
 	for i = 1, 3 do
-		--entities[#entities+1] = Entity.new("enemy", "1")
+		--entities[#entities+1] = Entity.new("enemy", entities[1].x, entities[1].y - (i*200)+50)
 	end
 
 end
@@ -36,16 +36,23 @@ function gameUpdate(dt)
 		else
 			entities[i]:update(dt)
 		end
-
-		if (entities[i].model == "player" and entities[i].action.thrust) or entities[i].model == "missle" then	-- smoke trails
-			local smo = {entities[i].x, entities[i].y}
-			entities[#entities+1] = Entity.new("smoke", smo)
-		end
 	end
+
+	if entities[1].action.shoot and entities[1].action.canShoot then	-- fire weapons
+		entities[#entities+1] = Entity.new(entities[1].weapon[entities[1].weapon.use], entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
+	end
+
+	if entities[1].action.thrust and entities[1].fuel > 0 then	-- ship smoke trails
+		entities[#entities+1] = Entity.new("smoke", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
+	end
+
 end
+		
+	
 
 function gameDraw()
-	LG.translate(-entities[1].x + LG.getWidth()/2, -entities[1].y + LG.getHeight()/2)
+	LG.push()
+    LG.translate(-entities[1].x + LG.getWidth()/2, -entities[1].y + LG.getHeight()/2)
 
 	for i = 1, #stars do
 		local x, y, dis = stars[i].x, stars[i].y, 0
@@ -59,4 +66,9 @@ function gameDraw()
 	for i = #entities, 1, -1 do
 		entities[i]:draw()
 	end
+
+	hudDrawDynamic()
+    love.graphics.pop()
+	hudDrawStatic()
+
 end

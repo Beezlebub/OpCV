@@ -36,9 +36,10 @@ function menuLoad()
 end
 
 function menuUpdate(dt)
-	local mx, my = LM.getPosition()
 	btnStart.hover = false
 	btnQuit.hover = false
+	local mx, my = LM.getPosition()
+
 	
 	if mx < btnStart.x + btnStart.w and btnStart.x < mx and my < btnStart.y + btnStart.h and btnStart.y < my then
 		btnStart.hover = true

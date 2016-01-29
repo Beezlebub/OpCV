@@ -72,7 +72,13 @@ states = {
 		    cwOff		= function() entities[1]:set("turnCW", false) end,
 
 		    shootOn		= function() entities[1]:set("shoot", true) end,
-		    shootOff	= function() entities[1]:set("shoot", false) end
+		    shootOff	= function() entities[1]:set("shoot", false) end,
+
+		    weapon1	= function() entities[1]:set("weapon", "bullet") end,
+		    weapon2	= function() entities[1]:set("weapon", "missle") end
+		    --weapon3	= function() entities[1]:set("weapon.use", 3) end,
+		    --weapon4	= function() entities[1]:set("weapon.use", 4) end,
+		    --weapon5	= function() entities[1]:set("weapon.use", 5) end
 		}
 	}
 }
@@ -111,7 +117,6 @@ function inputHandler( input )
 end
 
 function stateKeypressed( k )
-    -- you might want to keep track of this to change display prompts
     INPUTMETHOD = "keyboard"
     local binding = states[curState].keys[k]
     return inputHandler( binding )

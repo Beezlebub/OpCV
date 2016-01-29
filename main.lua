@@ -9,7 +9,6 @@ font14 = love.graphics.newFont(14)
 font20 = love.graphics.newFont(20)
 font36 = love.graphics.newFont(36)
 
-
 function love.load()
 	stateLoad()
 end

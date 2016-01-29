@@ -9,25 +9,25 @@ local smoke = require 'lib.ent.smoke'
 
 local ecs = {}
 
-function ecs.new(model, ... )
+function ecs.new(model, x, y ,vx, vy, rot)
 	local self = {}
 	self.model = model
 	self.isDead = false
 	
 	if model == "player" then
-		self = player.inherit()
+		self = player.inherit(x, y)
 	elseif model == "enemy" then
-		self = enemy.inherit( ... )
+		self = enemy.inherit(x, y)
 	elseif model == "bullet" then
-		self = bullet.inherit( ... )
+		self = bullet.inherit(x, y, vx, vy, rot)
 	elseif model == "missle" then
-		self = missle.inherit( ... )
+		self = missle.inherit(x, y, vx, vy, rot)
 	elseif model == "planet" then
-		self = planet.inherit( ... )
+		self = planet.inherit(x, y)
 	elseif model == "radio" then
-		self = radio.inherit( ... )
+		self = radio.inherit(x, y)
 	elseif model == "smoke" then
-		self = smoke.inherit( ... )
+		self = smoke.inherit(x, y)
 	end
 
 	return self

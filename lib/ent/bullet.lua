@@ -7,20 +7,23 @@ function bullet.inherit(x, y, vx, vy, rot)
 		y = y, 
 		vx = vx,
 		vy = vy,
-		rot = rot
+		rot = rot,
+		lifeTiem = 10,
+		collides = true
 	}
 
 	function self:update(dt)
-		self.vx = self.vx * dt
-		self.vy = self.vy * dt
-
-		self.x = self.x + self.vx
-		self.y = self.y + self.vy
+		if self.lifeTime <= 0 then
+			self.isDead = true
+			return
+		end
+		self.x = self.x + self.vx * dt
+		self.y = self.y + self.vy * dt
 	end
 
 	function self:draw()
 		LG.setColor(255,255,255)
-		LG.draw(self.img, self.x, self.y, self.rot, .2, .2, self.img:getWidth()/2, self.img:getHeight()/2)
+		--LG.draw(IMG.bullet, self.x, self.y, self.rot, 1, 1, IMG.bullet:getWidth()/2, IMG.bullet:getHeight()/2)
 	end
 
 	return self
