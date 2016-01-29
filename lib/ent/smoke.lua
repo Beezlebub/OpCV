@@ -5,9 +5,6 @@ function smoke.inherit(x, y)
 		x = x,
 		y = y,
 		r = 1.5,
-		vx = vx,
-		vy = vy,
-		rot = rot,
 		a = 200,
 		lifeTime = 10,
 		collides = false

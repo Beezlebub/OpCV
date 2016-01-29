@@ -19,10 +19,10 @@ function gameLoad()
 		}
 	end
 									--x, y, vx, vy, rot
-	entities[1] = Entity.new("player", 0, 0, 0, 0, 0) -- Call player first! Camera follows first entity!
+	entities[1] = Entity.new("player", 0, 0, 0, 0, 0)
 
 	for i = 1, 3 do
-		--entities[#entities+1] = Entity.new("enemy", entities[1].x, entities[1].y - (i*200)+50)
+		--entities[#entities+1] = Entity.new("enemy", entities[1].x, entities[1].y - (i*200)+500, 0, 0, 0)
 	end
 
 end
@@ -39,7 +39,16 @@ function gameUpdate(dt)
 	end
 
 	if entities[1].action.shoot and entities[1].action.canShoot then	-- fire weapons
-		entities[#entities+1] = Entity.new(entities[1].weapon[entities[1].weapon.use], entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
+		if entities[1].weapon[entities[1].weapon.use] == "bullet" then
+			entities[#entities+1] = Entity.new("bullet", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
+			entities[1].action.canShoot = false
+			entities[1].action.canShootTimer = 1
+
+		elseif entities[1].weapon[entities[1].weapon.use] == "missle" then
+			entities[#entities+1] = Entity.new("missle", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
+			entities[1].action.canShoot = false
+			entities[1].action.canShootTimer = 5
+		end
 	end
 
 	if entities[1].action.thrust and entities[1].fuel > 0 then	-- ship smoke trails
@@ -71,4 +80,22 @@ function gameDraw()
     love.graphics.pop()
 	hudDrawStatic()
 
+end
+
+function checkColl(x1, y1, r1, x2, y2, r2)
+	if (x1 + r1 + r2 > x2 and x1 < x2 + r1 + r2 and 
+		y1 + r1 + r2 > y2 and y1 < y2 + r1 + r2) then
+		collided = true
+	end
+return collided
+end
+
+function checkDis(x1, y1, x2, y2)
+	local tx = x2 - x1
+	local ty = y2 - y1
+
+	local angle = math.atan2(ty, tx)
+	local dis = ((tx^2) + (ty^2))
+	dis = math.sqrt(dis)
+return dis, angle
 end

@@ -48,6 +48,13 @@ function player.inherit(x, y)
 	self.h = self.imgCoast:getHeight()
 
 	function self:update(dt)
+		if self.action.canShootTimer >= 0 then
+			self.action.canShootTimer = self.action.canShootTimer - 1 * dt
+		else
+			self.action.canShoot = true
+		end
+
+
 		self.useImg = "imgCoast"
 		local didRot = false
 		local accel = self.force/(self.cargo.baseWeight + self.cargo.cargoWeight)

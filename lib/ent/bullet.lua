@@ -23,7 +23,7 @@ function bullet.inherit(x, y, vx, vy, rot)
 
 	function self:draw()
 		LG.setColor(255,255,255)
-		--LG.draw(IMG.bullet, self.x, self.y, self.rot, 1, 1, IMG.bullet:getWidth()/2, IMG.bullet:getHeight()/2)
+		LG.draw(IMG.bullet, self.x, self.y, self.rot, 1, 1, IMG.bullet:getWidth()/2, IMG.bullet:getHeight()/2)
 	end
 
 	return self

@@ -34,7 +34,7 @@ function missle.inherit(x, y, vx, vy, rot)
 
 	function self:draw()
 		LG.setColor(255,255,255)
-		--LG.draw(IMG.missle, self.x, self.y, self.rot, 1, 1, IMG.missle:getWidth()/2, IMG.missle:getHeight()/2)
+		LG.draw(IMG.missle, self.x, self.y, self.rot, 1, 1, IMG.missle:getWidth()/2, IMG.missle:getHeight()/2)
 	end
 
 	return self

@@ -15,8 +15,13 @@ end
 function hudDrawStatic()
 	hint.draw()
 	LG.setColor(180, 180, 180)
-	LG.rectangle("fill", 180, 510, 200, 150)
+	LG.rectangle("fill", 180, 460, 200, 150)
+
 	LG.setColor(0,0,0)
+	--LG.printf("canShoot= " ..  entities[1].action.canShoot, 200, 480, 500)
+	--LG.printf("csTimer= " ..  entities[1].action.canShootTimer, 200, 500, 500)
+	--LG.printf("x= " ..  entities[1].x, 200, 520, 500)
+
 	LG.printf("x= " ..  entities[1].x, 200, 520, 500)
 	LG.printf("y= " ..  entities[1].y, 200, 540, 500)
 	LG.printf("vx= " ..  entities[1].vx, 200, 560, 500)
