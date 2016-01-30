@@ -7,13 +7,15 @@ function missle.inherit(x, y, vx, vy, rot)
 		y = y, 
 		vx = vx,
 		vy = vy,
-		thrust = 20,
+		thrust = 5,
 		rot = rot,
 		lifeTime = 5,
 		collides = true,
 
 		action = {
 			thrust = true,
+			smoke = true,
+			isSmoke = true,
 			explode = false
 		}
 	}
@@ -34,8 +36,7 @@ function missle.inherit(x, y, vx, vy, rot)
 
 	function self:draw()
 		LG.setColor(255,255,255)
-		--LG.circle("fill", self.x, self.y, 20)
-		LG.draw(self.img, self.x, self.y, self.rot, .1, .1, self.img:getWidth()/2, self.img:getHeight()/2)
+		LG.draw(self.img, self.x, self.y, self.rot, .2, .2, self.img:getWidth()/2, self.img:getHeight()/2)
 	end
 
 	return self

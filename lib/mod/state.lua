@@ -1,4 +1,5 @@
 require 'lib.mod.menu'
+require 'lib.mod.invMenu'
 require 'lib.mod.game'
 require 'lib.mod.pause'
 curState = "menu"
@@ -29,11 +30,23 @@ states = {
 	    }
 	},
 
+	invMenu = {
+		keys = {
+			escape 	= "unpause"
+		},
+
+		keysReleased = {},
+
+		bindings = {
+	        unpause = function() stateSet("game") end
+	    }
+	},
+
 	game = {
 		keys = {
 			escape 	= "pause",
-			i 		= "inventory",
-			tab 	= "menu",
+			--i 		= "inventory",
+			--tab 	= "menu",
 
 			w 		= "thrustOn",
 			s 		= "reverseOn",
@@ -58,11 +71,11 @@ states = {
 
 		bindings = {
 		    pause   	= function() stateSet("pause") end,
-		    inventory	= function() end,
+		    inventory	= function() stateSet("invMenu") end,
 		    menu 		= function() end,
 
-		    thrustOn	= function() entities[1]:set("thrust", true) end,
-		    thrustOff	= function() entities[1]:set("thrust", false) end,
+		    thrustOn	= function() entities[1]:set("thrust", true); entities[1]:set("isSmoke", true) end,
+		    thrustOff	= function() entities[1]:set("thrust", false); entities[1]:set("isSmoke", false) end,
 		    reverseOn	= function() entities[1]:set("reverse", true) end,
 		    reverseOff	= function() entities[1]:set("reverse", false) end,
 
@@ -94,18 +107,21 @@ end
 
 function stateUpdate(dt)
 	if curState == "menu" then menuUpdate(dt) end
+	if curState == "invMenu" then invMenuUpdate(dt) end
 	if curState == "pause" then pauseUpdate(dt) end
 	if curState == "game" then gameUpdate(dt) end
 end
 
 function stateDraw()
 	if curState == "menu" then menuDraw() end
+	if curState == "invMenu" then invMenuDraw() end
 	if curState == "pause" then pauseDraw() end
 	if curState == "game" then gameDraw() end
 end
 
 function stateMouse(x, y, b)
 	if curState == "menu" then menuMouse(x, y, b) end
+	if curState == "invMenu" then invMenuMouse(x, y, b) end
 	if curState == "pause" then pauseMouse(x, y, b) end
 end
 

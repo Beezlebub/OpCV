@@ -22,30 +22,19 @@ function menuLoad()
 		x = LG.getWidth()/2 - 100,
 		y = LG.getHeight()/2 + 80,
 		w = 200,
-		h = 50,
-		hover = false
+		h = 50
 	}
 
 	btnQuit = {
 		x = LG.getWidth()/2 - 100,
 		y = LG.getHeight()/2 + 150,
 		w = 200,
-		h = 50,
-		hover = false
+		h = 50
 	}
 end
 
 function menuUpdate(dt)
-	btnStart.hover = false
-	btnQuit.hover = false
-	local mx, my = LM.getPosition()
 
-	
-	if mx < btnStart.x + btnStart.w and btnStart.x < mx and my < btnStart.y + btnStart.h and btnStart.y < my then
-		btnStart.hover = true
-	elseif mx < btnQuit.x + btnQuit.w and btnQuit.x < mx and my < btnQuit.y + btnQuit.h and btnQuit.y < my then
-		btnQuit.hover = true
-  	end
 end
 
 function menuDraw()
@@ -56,14 +45,6 @@ function menuDraw()
 	LG.rectangle("fill", btnStart.x, btnStart.y, btnStart.w, btnStart.h)
 	LG.rectangle("fill", btnQuit.x, btnQuit.y, btnQuit.w, btnQuit.h)
 	
-	if btnStart.hover then
-		LG.setColor(255, 255, 255, 200)
-		LG.rectangle("fill", btnStart.x, btnStart.y, btnStart.w, btnStart.h)
-	elseif btnQuit.hover then
-		LG.setColor(255, 255, 255, 200)
-		LG.rectangle("fill", btnQuit.x, btnQuit.y, btnQuit.w, btnQuit.h)
-	end
-
 	LG.setFont(font14)
 	LG.setColor(255, 255, 255)
 	LG.printf(intro.text, intro.x, intro.y, intro.w, "left")
@@ -75,12 +56,12 @@ function menuDraw()
 	LG.draw(imgLove, LG.getWidth()/2, LG.getHeight()/2-50, 0, .8, .8, imgLove:getWidth()/2-50, imgLove:getHeight()/2)
 end	
 
-function menuMouse(x, y, b)
-	if btnStart.hover then
+function menuMouse(mx, my, mb)
+	if mx < btnStart.x + btnStart.w and btnStart.x < mx and my < btnStart.y + btnStart.h and btnStart.y < my then
 		entities = nil
 		gameLoad()
 		stateSet("game")
-	elseif btnQuit.hover then
+	elseif mx < btnQuit.x + btnQuit.w and btnQuit.x < mx and my < btnQuit.y + btnQuit.h and btnQuit.y < my then
 		love.event.quit()
 	end
 end

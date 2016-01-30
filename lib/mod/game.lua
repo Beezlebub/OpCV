@@ -42,19 +42,26 @@ function gameUpdate(dt)
 		if entities[1].weapon.use == "bullet" then
 			entities[#entities+1] = Entity.new("bullet", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
 			entities[1]:set("canShoot", false)
-			entities[1]:set("canShootTimer", 1)
+			entities[1]:set("canShootTimer", .3)
 
 		elseif entities[1].weapon.use == "missle" then
 			entities[#entities+1] = Entity.new("missle", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
 			entities[1]:set("canShoot", false)
-			entities[1]:set("canShootTimer", 5)
+			entities[1]:set("canShootTimer", 3)
 		end
 	end
 
-	if entities[1].action.thrust and entities[1].fuel > 0 then	-- ship smoke trails
-		entities[#entities+1] = Entity.new("smoke", entities[1].x, entities[1].y, entities[1].vx, entities[1].vy, entities[1].rot)
-	end
+	--[[if entities[1].action.thrust and entities[1].fuel > 0 then	-- ship smoke trail
+		entities[#entities+1] = Entity.new("smoke", entities[1].x, entities[1].y)
+	end]]
 
+	for i, ent in ipairs(entities) do
+		if ent.action.smoke then	-- smoke trails
+			if ent.action.isSmoke then
+				entities[#entities+1] = Entity.new("smoke", ent.x, ent.y)
+			end
+		end
+	end
 end
 		
 

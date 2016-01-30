@@ -9,11 +9,16 @@ function bullet.inherit(x, y, vx, vy, rot)
 		vy = vy,
 		rot = rot,
 		lifeTime = 10,
-		collides = true
+		collides = true,
+
+		action = {
+			smoke = false,
+			thrust = false		
+		}
 	}
 
-	self.vx = self.vx + math.sin(self.rot) * 200
-	self.vy = self.vy + math.cos(self.rot) * -200
+	self.vx = self.vx + math.sin(self.rot) * 300
+	self.vy = self.vy + math.cos(self.rot) * -300
 
 	function self:update(dt)
 		self.lifeTime = self.lifeTime - 1 * dt

@@ -1,21 +1,21 @@
 local enemy = {}
 
-function enemy.inherit(x, y, vx, vy, rot)
+function enemy.inherit(x, y, rot)
 	local self = {
 		imgCoast = LG.newImage('lib/img/enemy1Coast.png'),
 		imgBoost = LG.newImage('lib/img/enemy1Boost.png'),
 		useImg = "imgCoast",
 		x = x,
 		y = y,
-		vx = vx,
-		vy = vy,
-		vrot = 0,
+		vx = 0,
+		vy = 0,
 		rot = rot,
 		force = 2500,
 		mass = 1500,
 		collides = true,
 
 		action = {
+			smoke = true,
 			thrust = false,
 			reverse = false,
 			turnCW = false,

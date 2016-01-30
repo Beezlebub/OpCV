@@ -7,7 +7,11 @@ function smoke.inherit(x, y)
 		r = 1.5,
 		a = 200,
 		lifeTime = 10,
-		collides = false
+		collides = false,
+
+		action = {
+			smoke = false
+		}
 	}
 
 	function self:update(dt)

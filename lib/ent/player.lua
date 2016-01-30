@@ -6,6 +6,7 @@ function player.inherit(x, y)
 		imgCoast = LG.newImage('lib/img/starterShipCoast.png'),
 		imgBoost = LG.newImage('lib/img/starterShipBoost.png'),
 		useImg = "imgCoast",
+		model = "player",
 		x = x,
 		y = x,
 		vx = 0,
@@ -17,11 +18,26 @@ function player.inherit(x, y)
 		health = 100,
 		burnRate = 5,
 		collides = true,
-		cargo = inventory.load(),
 		canShoot = true,
 		canShootTimer = 0,
 
+		cargo = {
+			baseWeight = 1500,
+			cargoWeight = 0,
+			maxWeight = 2000,
+
+			items = {
+				money = 1000,
+				smCargo = 0,
+				mdCargo = 0,
+				lgCargo = 0,
+				passengers = 0
+			}
+		},
+
 		action = {
+			smoke = true,
+			isSmoke = false,
 			thrust = false,
 			reverse = false,
 			turnCW = false,
@@ -55,7 +71,9 @@ function player.inherit(x, y)
 		end
 
 		self.useImg = "imgCoast"
+		self.action.smoke = true
 		local didRot = false
+
 		local accel = self.force/(self.cargo.baseWeight + self.cargo.cargoWeight)
 
 		if self.fuel > 0 then
@@ -64,6 +82,7 @@ function player.inherit(x, y)
 				self.vy = self.vy + math.cos(self.rot) * -accel * dt
 				self.fuel = self.fuel - self.burnRate * dt
 				self.useImg = "imgBoost"
+				self.action.smoke = true
 
 			elseif self.action.reverse then
 				self.vx = self.vx - math.sin(self.rot) * (accel/2) * dt
@@ -103,14 +122,29 @@ function player.inherit(x, y)
 
 	function self:draw()
 		LG.setColor(255,255,255)
-		LG.draw(self[self.useImg], self.x, self.y, self.rot, .2, .2, self.w/2, self.h/2)
+		LG.draw(self[self.useImg], self.x, self.y, self.rot, .3, .3, self.w/2, self.h/2)
+	end
+
+-------------------------------------------------
+
+	function self:add(item, qty)
+		local remain = self.maxWeight - (self.baseWeight + self.cargoWeight)
+		if itemTable[item].weight * qty <= remain then
+			self.items[item] = self.items[item] + qty
+			return true
+		end
+	end
+
+	function self:remove(item, qty)
+		if self.items[item] >= qty then
+			self.items[item] = self.items[item] - qty
+			return true
+		end
 	end
 
 	function self:set(act, val)
 		if act == "weapon" then
 			self.weapon.use = val
-		elseif act == "shoot" then
-			self.action.shoot = val
 		elseif act == "canShoot" then
 			self.canShoot = val
 		elseif act == "canShootTimer" then

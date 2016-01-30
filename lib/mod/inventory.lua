@@ -43,7 +43,7 @@ function inventory.load()
 	end
 
 	function self:remove(item, qty)
-		if self.items[item] > qty then
+		if self.items[item] >= qty then
 			self.items[item] = self.items[item] - qty
 			return true
 		end

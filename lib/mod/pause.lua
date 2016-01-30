@@ -21,21 +21,12 @@ function pauseLoad()
 		x = LG.getWidth()/2 - 100,
 		y = LG.getHeight()/2 + 150,
 		w = 200,
-		h = 50,
-		hover = false
+		h = 50
 	}
 end
 
 function pauseUpdate(dt)
-	local mx, my = LM.getPosition()
-	btnPlay.hover = false
-	btnQuit.hover = false
 	
-	if mx < btnPlay.x + btnPlay.w and btnPlay.x < mx and my < btnPlay.y + btnPlay.h and btnPlay.y < my then
-		btnPlay.hover = true
-	elseif mx < btnQuit.x + btnQuit.w and btnQuit.x < mx and my < btnQuit.y + btnQuit.h and btnQuit.y < my then
-		btnQuit.hover = true
-  	end
 end
 
 function pauseDraw()
@@ -63,10 +54,10 @@ function pauseDraw()
 	LG.printf("QUIT", btnQuit.x, btnQuit.y+15, btnQuit.w, "center")
 end
 
-function pauseMouse(x, y, b)
-	if btnPlay.hover then
+function pauseMouse(mx, my, mb)
+	if mx < btnPlay.x + btnPlay.w and btnPlay.x < mx and my < btnPlay.y + btnPlay.h and btnPlay.y < my then
 		stateSet("game")
-	elseif btnQuit.hover then
+	elseif mx < btnQuit.x + btnQuit.w and btnQuit.x < mx and my < btnQuit.y + btnQuit.h and btnQuit.y < my then
 		stateSet("menu")
 	end
 end
